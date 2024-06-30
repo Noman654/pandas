@@ -33,6 +33,7 @@ from numpydoc.validate import (
     Validator,
     validate,
 )
+from security import safe_command
 
 # With template backend, matplotlib plots nothing
 matplotlib.use("template")
@@ -197,7 +198,7 @@ class PandasDocstring(Validator):
                 "--ignore=E203,E3,W503,W504,E402,E731,E128,E124,E704",
                 file.name,
             ]
-            response = subprocess.run(cmd, capture_output=True, check=False, text=True)
+            response = safe_command.run(subprocess.run, cmd, capture_output=True, check=False, text=True)
             for output in ("stdout", "stderr"):
                 out = getattr(response, output)
                 out = out.replace(file.name, "")
